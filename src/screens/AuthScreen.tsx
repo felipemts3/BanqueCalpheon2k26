@@ -61,6 +61,7 @@ export default function AuthScreen() {
               type="button"
               onClick={() => {
                 setMode("login");
+                setPin("");
                 setError(null);
               }}
               className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all ${
@@ -75,6 +76,7 @@ export default function AuthScreen() {
               type="button"
               onClick={() => {
                 setMode("signup");
+                setPin("");
                 setError(null);
               }}
               className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all ${
@@ -117,11 +119,16 @@ export default function AuthScreen() {
                 <input
                   type={showPin ? "text" : "password"}
                   value={pin}
-                  onChange={(e) => setPin(e.target.value.replace(/[^0-9]/g, ""))}
-                  placeholder="••••"
-                  maxLength={4}
-                  inputMode="numeric"
-                  pattern="[0-9]*"
+                  onChange={(e) =>
+                    setPin(
+                      mode === "signup"
+                        ? e.target.value.replace(/[^0-9]/g, "").slice(0, 4)
+                        : e.target.value.slice(0, 64)
+                    )
+                  }
+                  placeholder={mode === "signup" ? "••••" : "Sua senha"}
+                  maxLength={mode === "signup" ? 4 : 64}
+                  inputMode={mode === "signup" ? "numeric" : "text"}
                   autoComplete="off"
                   className="w-full bg-slate-900/60 text-white rounded-xl pl-11 pr-11 py-3 text-sm border border-white/10 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 outline-none transition-all placeholder:text-slate-600 tracking-widest"
                 />
@@ -163,7 +170,7 @@ export default function AuthScreen() {
           <p className="text-center text-xs text-slate-500 mt-5">
             {mode === "signup"
               ? "Use o nome de família exatamente como aparece no BDO."
-              : "A conta master aceita senha de 6+ caracteres."}
+              : "Jogadores usam senha de 4 dígitos. O Master usa senha de 6+ caracteres."}
           </p>
         </div>
       </div>
