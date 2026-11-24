@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Check, CheckCircle2, Lock, Trophy, LogOut, Settings } from "lucide-react";
+import { Check, CheckCircle2, Lock, Trophy, LogOut, Settings, Users } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import type {
@@ -10,6 +10,7 @@ import type {
 } from "@/lib/types";
 import Countdown from "@/components/Countdown";
 import { getIcon } from "@/lib/icons";
+import { fetchOptions } from "@/lib/options";
 
 interface PredictionMap {
   [optionId: string]: boolean;
@@ -18,7 +19,7 @@ interface PredictionMap {
 export default function PredictionsScreen({
   onNavigate,
 }: {
-  onNavigate: (screen: "ranking" | "admin") => void;
+  onNavigate: (screen: "ranking" | "admin" | "picks") => void;
 }) {
   const { player, token, signOut } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -26,7 +27,7 @@ export default function PredictionsScreen({
   const [predictions, setPredictions] = useState<PredictionMap>({});
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [activeCat, setActiveCat] = useState<string>("");
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -42,13 +43,13 @@ export default function PredictionsScreen({
   const loadData = async () => {
     const [catRes, optRes, settingsRes, predRes] = await Promise.all([
       supabase.from("categories").select("*").order("sort_order"),
-      supabase.from("options").select("*").order("sort_order"),
+      fetchOptions(token),
       supabase.rpc("get_settings"),
       token ? supabase.rpc("get_my_predictions", { p_token: token }) : Promise.resolve({ data: [] }),
     ]);
 
     if (catRes.data) setCategories(catRes.data as Category[]);
-    if (optRes.data) setOptions(optRes.data as Option[]);
+    setOptions(optRes);
     if (settingsRes.data) setSettings(settingsRes.data as AppSettings);
 
     if (predRes.data && Array.isArray(predRes.data)) {
@@ -93,32 +94,36 @@ export default function PredictionsScreen({
     async (optionId: string, answer: boolean) => {
       if (deadlinePassed) return;
 
+      const previous = predictions[optionId];
+
       // Optimistic update
       setPredictions((prev) => ({ ...prev, [optionId]: answer }));
       setSaveStatus("saving");
 
-      const { data } = await supabase.rpc("save_prediction", {
+      const { data, error } = await supabase.rpc("save_prediction", {
         p_token: token,
         p_option_id: optionId,
         p_answer: answer,
       });
 
-      const result = data as Record<string, unknown>;
-      if (result && result.error) {
-        // Revert on error
+      const result = data as Record<string, unknown> | null;
+      if (error || !result || result.error) {
+        // Restaura o valor anterior (não apaga o palpite que já existia)
         setPredictions((prev) => {
           const next = { ...prev };
-          delete next[optionId];
+          if (previous === undefined) delete next[optionId];
+          else next[optionId] = previous;
           return next;
         });
-        setSaveStatus("idle");
+        setSaveStatus("error");
+        setTimeout(() => setSaveStatus("idle"), 2500);
         return;
       }
 
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("idle"), 1500);
     },
-    [token, deadlinePassed]
+    [token, deadlinePassed, predictions]
   );
 
   const handleConfirm = async () => {
@@ -162,6 +167,15 @@ export default function PredictionsScreen({
                   title="Painel Admin"
                 >
                   <Settings className="w-5 h-5" />
+                </button>
+              )}
+              {deadlinePassed && (
+                <button
+                  onClick={() => onNavigate("picks")}
+                  className="p-2 rounded-lg bg-slate-800 text-amber-400 hover:bg-slate-700 transition-colors"
+                  title="Palpites da galera"
+                >
+                  <Users className="w-5 h-5" />
                 </button>
               )}
               <button
@@ -213,6 +227,11 @@ export default function PredictionsScreen({
       <div className="max-w-4xl mx-auto px-4 mt-3 h-5">
         {saveStatus === "saving" && (
           <span className="text-xs text-slate-500">Salvando...</span>
+        )}
+        {saveStatus === "error" && (
+          <span className="text-xs text-red-400">
+            Não foi possível salvar. Verifique sua conexão e tente de novo.
+          </span>
         )}
         {saveStatus === "saved" && (
           <span className="text-xs text-green-400 flex items-center gap-1">
@@ -266,6 +285,11 @@ export default function PredictionsScreen({
         {activeOptions.map((opt) => {
           const pred = predictions[opt.id];
           const hasAnswer = pred !== undefined;
+          const resolved = opt.happened !== null && opt.happened !== undefined;
+          const hit = resolved && hasAnswer && pred === opt.happened;
+          const miss = resolved && hasAnswer && pred !== opt.happened;
+          const ptsOk = settings?.points_correct ?? "10";
+          const ptsBad = settings?.points_wrong ?? "-5";
           return (
             <div
               key={opt.id}
@@ -292,6 +316,23 @@ export default function PredictionsScreen({
                   )}
                 </div>
               </div>
+
+              {resolved && (
+                <div
+                  className={`mt-3 text-xs font-semibold rounded-lg px-3 py-2 ${
+                    hit
+                      ? "bg-green-500/15 text-green-400"
+                      : miss
+                      ? "bg-red-500/15 text-red-400"
+                      : "bg-slate-900/60 text-slate-400"
+                  }`}
+                >
+                  {opt.happened ? "Aconteceu" : "Não aconteceu"}
+                  {hit && ` · acertou (+${ptsOk})`}
+                  {miss && ` · errou (${ptsBad})`}
+                  {!hasAnswer && " · sem palpite (0)"}
+                </div>
+              )}
 
               {/* Toggle */}
               <div className="flex gap-2 mt-3">

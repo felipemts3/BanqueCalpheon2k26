@@ -1,3 +1,4 @@
+import { fetchOptions } from "@/lib/options";
 import { useState, useEffect, useCallback } from "react";
 import {
   ArrowLeft,
@@ -305,11 +306,11 @@ function CategoriesTab({ token }: { token: string | null }) {
   const load = useCallback(async () => {
     const [catRes, optRes] = await Promise.all([
       supabase.from("categories").select("*").order("sort_order"),
-      supabase.from("options").select("*").order("sort_order"),
+      fetchOptions(token),
     ]);
     if (catRes.data) setCategories(catRes.data as Category[]);
-    if (optRes.data) setOptions(optRes.data as Option[]);
-  }, []);
+    setOptions(optRes);
+  }, [token]);
 
   useEffect(() => {
     load();
@@ -706,11 +707,11 @@ function GabaritoTab({ token }: { token: string | null }) {
   const load = useCallback(async () => {
     const [catRes, optRes] = await Promise.all([
       supabase.from("categories").select("*").order("sort_order"),
-      supabase.from("options").select("*").order("sort_order"),
+      fetchOptions(token),
     ]);
     if (catRes.data) setCategories(catRes.data as Category[]);
-    if (optRes.data) setOptions(optRes.data as Option[]);
-  }, []);
+    setOptions(optRes);
+  }, [token]);
 
   useEffect(() => {
     load();

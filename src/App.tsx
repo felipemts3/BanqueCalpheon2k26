@@ -4,8 +4,9 @@ import AuthScreen from "@/screens/AuthScreen";
 import PredictionsScreen from "@/screens/PredictionsScreen";
 import RankingScreen from "@/screens/RankingScreen";
 import AdminScreen from "@/screens/AdminScreen";
+import PicksScreen from "@/screens/PicksScreen";
 
-type Screen = "predictions" | "ranking" | "admin";
+type Screen = "predictions" | "ranking" | "admin" | "picks";
 
 function AppContent() {
   const { player, loading } = useAuth();
@@ -25,6 +26,10 @@ function AppContent() {
 
   if (screen === "ranking") {
     return <RankingScreen onBack={() => setScreen("predictions")} />;
+  }
+
+  if (screen === "picks") {
+    return <PicksScreen onBack={() => setScreen("predictions")} />;
   }
 
   if (screen === "admin" && player.is_master) {
