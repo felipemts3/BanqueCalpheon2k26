@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer components {
+  .modal-input {
+    @apply w-full bg-slate-900 text-white rounded-xl px-3 py-2.5 text-sm border border-white/10 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 outline-none transition-all;
+  }
+}
