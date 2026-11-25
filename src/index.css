@@ -4,6 +4,7 @@
 
 @layer base {
   body {
+    @apply bg-slate-900;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

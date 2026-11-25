@@ -273,14 +273,14 @@ export default function PredictionsScreen({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-amber-400 animate-pulse text-sm">Carregando palpites...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 pb-24">
+    <div className="min-h-screen pb-24">
       {/* Header */}
       <header className="sticky top-0 z-20 bg-slate-900/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-4xl mx-auto px-4 py-3">
