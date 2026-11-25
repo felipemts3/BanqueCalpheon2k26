@@ -27,7 +27,7 @@ export default function VideoBackground() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-amber-950"
+      className="fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-ink via-obsidian to-ink"
     >
       {!failed && !reducedMotion && (
         <video
@@ -44,8 +44,8 @@ export default function VideoBackground() {
         />
       )}
       {/* Escurece o vídeo para o texto continuar legível */}
-      <div className="absolute inset-0 bg-slate-950/65" />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/40" />
+      <div className="absolute inset-0 bg-ink/65" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-ink/40" />
     </div>
   );
 }

@@ -274,7 +274,7 @@ export default function PredictionsScreen({
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-amber-400 animate-pulse text-sm">Carregando palpites...</div>
+        <div className="text-highlighter animate-pulse text-sm">Carregando palpites...</div>
       </div>
     );
   }
@@ -282,14 +282,14 @@ export default function PredictionsScreen({
   return (
     <div className="min-h-screen pb-24">
       {/* Header */}
-      <header className="sticky top-0 z-20 bg-slate-950/30 backdrop-blur-md border-b border-white/10">
+      <header className="sticky top-0 z-20 bg-ink/30 backdrop-blur-md border-b border-hairline/15">
         <div className="max-w-4xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h1 className="text-white font-bold text-base sm:text-lg leading-tight">
+              <h1 className="text-paper font-normal text-subheading sm:text-heading-sm">
                 Bolão do Banquete
               </h1>
-              <p className="text-amber-400/70 text-xs">
+              <p className="text-highlighter text-[10px] leading-[2.2] uppercase tracking-[0.018em]">
                 {player?.family_name}
               </p>
             </div>
@@ -297,7 +297,7 @@ export default function PredictionsScreen({
               {player?.is_master && (
                 <button
                   onClick={() => onNavigate("admin")}
-                  className="p-2 rounded-lg bg-slate-800 text-amber-400 hover:bg-slate-700 transition-colors"
+                  className="p-2 rounded-button bg-obsidian text-highlighter hover:bg-white/10 transition-colors"
                   title="Painel Admin"
                 >
                   <Settings className="w-5 h-5" />
@@ -306,7 +306,7 @@ export default function PredictionsScreen({
               {deadlinePassed && (
                 <button
                   onClick={() => onNavigate("picks")}
-                  className="p-2 rounded-lg bg-slate-800 text-amber-400 hover:bg-slate-700 transition-colors"
+                  className="p-2 rounded-button bg-obsidian text-highlighter hover:bg-white/10 transition-colors"
                   title="Palpites da galera"
                 >
                   <Users className="w-5 h-5" />
@@ -314,14 +314,14 @@ export default function PredictionsScreen({
               )}
               <button
                 onClick={() => onNavigate("ranking")}
-                className="p-2 rounded-lg bg-slate-800 text-amber-400 hover:bg-slate-700 transition-colors"
+                className="p-2 rounded-button bg-obsidian text-highlighter hover:bg-white/10 transition-colors"
                 title="Ranking"
               >
                 <Trophy className="w-5 h-5" />
               </button>
               <button
                 onClick={signOut}
-                className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:bg-slate-700 transition-colors"
+                className="p-2 rounded-button bg-obsidian text-smoke/70 hover:bg-white/10 transition-colors"
                 title="Sair"
               >
                 <LogOut className="w-5 h-5" />
@@ -334,50 +334,46 @@ export default function PredictionsScreen({
 
           {/* Progress */}
           <div className="mt-3 flex items-center gap-3">
-            <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div className="flex-1 h-2 bg-obsidian rounded-full overflow-hidden">
               <div
-                className="h-full bg-amber-500 rounded-full transition-all duration-300"
+                className="h-full bg-highlighter rounded-full transition-all duration-300"
                 style={{ width: `${totalActive > 0 ? (totalAnswered / totalActive) * 100 : 0}%` }}
               />
             </div>
-            <span className="text-xs text-slate-400 tabular-nums whitespace-nowrap">
+            <span className="text-xs text-smoke/70 tabular-nums whitespace-nowrap">
               {totalAnswered}/{totalActive} palpites
             </span>
           </div>
 
           {/* Regras */}
-          <div className="mt-3 rounded-xl bg-slate-950/50 ring-1 ring-white/10 p-3">
-            <p className="text-xs font-bold uppercase tracking-wide text-amber-400 mb-2">
+          <div className="mt-3 rounded-card bg-ink/60 ring-1 ring-hairline/15 p-4">
+            <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em] text-highlighter mb-1">
               Como pontua
             </p>
             <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="rounded-lg bg-green-500/15 ring-1 ring-green-500/30 px-2 py-2">
-                <p className="text-[11px] sm:text-xs text-green-300 font-medium">Acertou</p>
-                <p className="text-base sm:text-lg font-extrabold text-green-400 leading-tight">
-                  +{ptsOk}
-                </p>
+              <div className="rounded-input bg-highlighter text-ink px-2 py-2.5">
+                <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em]">Acertou</p>
+                <p className="text-heading-sm sm:text-heading leading-none">+{ptsOk}</p>
               </div>
-              <div className="rounded-lg bg-red-500/15 ring-1 ring-red-500/30 px-2 py-2">
-                <p className="text-[11px] sm:text-xs text-red-300 font-medium">Errou</p>
-                <p className="text-base sm:text-lg font-extrabold text-red-400 leading-tight">
-                  {ptsBad}
-                </p>
+              <div className="rounded-input bg-paper text-ink px-2 py-2.5">
+                <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em]">Errou</p>
+                <p className="text-heading-sm sm:text-heading leading-none">{ptsBad}</p>
               </div>
-              <div className="rounded-lg bg-slate-700/50 ring-1 ring-white/15 px-2 py-2">
-                <p className="text-[11px] sm:text-xs text-slate-200 font-medium">Em branco</p>
-                <p className="text-base sm:text-lg font-extrabold text-white leading-tight">0</p>
+              <div className="rounded-input bg-obsidian text-paper ring-1 ring-hairline/15 px-2 py-2.5">
+                <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em] text-smoke/70">Em branco</p>
+                <p className="text-heading-sm sm:text-heading leading-none">0</p>
               </div>
             </div>
-            <p className="mt-2 text-xs sm:text-sm text-slate-100 leading-snug">
-              <span className="text-green-400 font-semibold">Deixar em branco = 0 pontos, sem risco.</span>
+            <p className="mt-3 text-sm text-smoke">
+              Deixar em branco = 0 pontos, sem risco.
             </p>
-            <p className="mt-1.5 flex items-start gap-1.5 rounded-lg bg-amber-500/15 ring-1 ring-amber-500/30 px-2.5 py-2 text-xs sm:text-sm text-amber-100 leading-snug">
-              <Zap className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+            <p className="mt-2 flex items-start gap-2 rounded-input bg-obsidian ring-1 ring-highlighter/40 px-3 py-2.5 text-sm text-smoke leading-snug">
+              <Zap className="w-4 h-4 text-highlighter shrink-0 mt-0.5" />
               <span>
-                <strong className="text-amber-300">Turbo x2 / x4 / x8</strong> multiplica acerto e
-                erro de <strong className="text-amber-300">UMA</strong> opção. Ex.: x4 acertando ={" "}
-                <strong className="text-green-400">+{ptsOk * 4}</strong>, errando ={" "}
-                <strong className="text-red-400">{ptsBad * 4}</strong>.
+                <span className="text-highlighter">Turbo x2 / x4 / x8</span> multiplica acerto e
+                erro de <span className="text-highlighter">UMA</span> opção. Ex.: x4 acertando ={" "}
+                <span className="text-highlighter">+{ptsOk * 4}</span>, errando ={" "}
+                <span className="text-paper">{ptsBad * 4}</span>.
               </span>
             </p>
           </div>
@@ -388,13 +384,13 @@ export default function PredictionsScreen({
       {!deadlinePassed && (
         <div className="max-w-4xl mx-auto px-4 mt-3">
           <div
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm ${
+            className={`flex items-center gap-2 rounded-input px-4 py-2.5 text-sm ${
               booster
-                ? "bg-amber-500/15 ring-1 ring-amber-500/30 text-amber-300"
-                : "bg-slate-800/60 text-slate-400"
+                ? "bg-highlighter/15 ring-1 ring-highlighter/30 text-highlighter"
+                : "bg-obsidian/60 text-smoke/70"
             }`}
           >
-            <Zap className={`w-4 h-4 flex-shrink-0 ${booster ? "text-amber-400" : "text-slate-500"}`} />
+            <Zap className={`w-4 h-4 flex-shrink-0 ${booster ? "text-highlighter" : "text-smoke/55"}`} />
             {booster ? (
               <span>
                 Seu turbo: <strong>{booster.title}</strong> x{booster.multiplier}
@@ -408,8 +404,8 @@ export default function PredictionsScreen({
 
       {/* Deadline banner */}
       {deadlinePassed && (
-        <div className="bg-red-500/15 border-b border-red-500/20 px-4 py-2 text-center mt-3">
-          <p className="text-red-400 text-sm font-medium flex items-center justify-center gap-1.5">
+        <div className="bg-paper px-4 py-2.5 text-center mt-3">
+          <p className="text-ink text-sm uppercase tracking-[0.05em] flex items-center justify-center gap-1.5">
             <Lock className="w-4 h-4" />
             Palpites encerrados — aguarde o resultado
           </p>
@@ -419,7 +415,7 @@ export default function PredictionsScreen({
       {/* Save status */}
       <div className="max-w-4xl mx-auto px-4 mt-3 h-5">
         {saveStatus === "saving" && (
-          <span className="text-xs text-slate-500">Salvando...</span>
+          <span className="text-xs text-smoke/55">Salvando...</span>
         )}
         {saveStatus === "error" && (
           <span className="text-xs text-red-400">
@@ -427,7 +423,7 @@ export default function PredictionsScreen({
           </span>
         )}
         {saveStatus === "saved" && (
-          <span className="text-xs text-green-400 flex items-center gap-1">
+          <span className="text-xs text-highlighter flex items-center gap-1">
             <Check className="w-3.5 h-3.5" /> Salvo
           </span>
         )}
@@ -449,17 +445,17 @@ export default function PredictionsScreen({
               <button
                 key={cat.id}
                 onClick={() => setActiveCat(cat.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-input text-sm font-normal whitespace-nowrap transition-all ${
                   isActive
-                    ? "bg-amber-500 text-slate-900"
-                    : "bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700"
+                    ? "bg-highlighter text-ink"
+                    : "bg-obsidian text-smoke/70 hover:text-paper hover:bg-white/10"
                 }`}
               >
                 <Icon className="w-4 h-4" />
                 {cat.name}
                 <span
                   className={`text-[10px] tabular-nums ${
-                    isActive ? "text-slate-800/60" : "text-slate-600"
+                    isActive ? "text-ink/60" : "text-ash"
                   }`}
                 >
                   {catDone}/{catOpts.length}
@@ -472,7 +468,7 @@ export default function PredictionsScreen({
 
       {/* Options */}
       <div className="max-w-4xl mx-auto px-4 mt-3 space-y-3">
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-smoke/55">
           {catAnswered} de {activeOptions.length} respondidas nesta categoria
         </p>
         {activeOptions.map((opt) => {
@@ -487,12 +483,12 @@ export default function PredictionsScreen({
           return (
             <div
               key={opt.id}
-              className={`bg-slate-800/60 rounded-2xl p-4 ring-1 transition-all ${
+              className={`bg-obsidian/80 rounded-card p-4 ring-1 transition-all ${
                 hasBooster
-                  ? "ring-amber-400/60 shadow-[0_0_16px_rgba(251,191,36,0.15)]"
+                  ? "ring-highlighter/60"
                   : hasAnswer
-                  ? "ring-amber-500/20"
-                  : "ring-white/5"
+                  ? "ring-highlighter/20"
+                  : "ring-hairline/15"
               }`}
             >
               <div className="flex items-start gap-3">
@@ -502,17 +498,17 @@ export default function PredictionsScreen({
                   </span>
                 )}
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-white font-semibold text-sm leading-snug">
+                  <h3 className="text-paper text-base leading-snug">
                     {opt.title}
                   </h3>
                   {opt.description && (
-                    <p className="text-slate-400 text-xs mt-1 leading-relaxed">
+                    <p className="text-smoke/70 text-xs mt-1 leading-relaxed">
                       {opt.description}
                     </p>
                   )}
                 </div>
                 {hasBooster && (
-                  <span className="flex-shrink-0 flex items-center gap-1 bg-amber-500/20 text-amber-300 text-[11px] font-bold px-2 py-1 rounded-lg ring-1 ring-amber-500/40">
+                  <span className="flex-shrink-0 flex items-center gap-1 bg-highlighter/20 text-highlighter text-[11px] font-normal px-2 py-1 rounded-button ring-1 ring-highlighter/40">
                     <Zap className="w-3 h-3" /> x{multiplier}
                   </span>
                 )}
@@ -520,12 +516,12 @@ export default function PredictionsScreen({
 
               {resolved && (
                 <div
-                  className={`mt-3 text-xs font-semibold rounded-lg px-3 py-2 ${
+                  className={`mt-3 text-xs font-normal rounded-button px-3 py-2 ${
                     hit
-                      ? "bg-green-500/15 text-green-400"
+                      ? "bg-highlighter/15 text-highlighter"
                       : miss
-                      ? "bg-red-500/15 text-red-400"
-                      : "bg-slate-900/60 text-slate-400"
+                      ? "bg-white/10 text-smoke"
+                      : "bg-ink/60 text-smoke/70"
                   }`}
                 >
                   {opt.happened ? "Aconteceu" : "Não aconteceu"}
@@ -540,10 +536,10 @@ export default function PredictionsScreen({
                 <button
                   disabled={deadlinePassed}
                   onClick={() => handlePrediction(opt.id, true)}
-                  className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                  className={`flex-1 py-3 rounded-button text-xs sm:text-sm uppercase tracking-[0.05em] transition-all ${
                     hasAnswer && answer === true
-                      ? "bg-green-500 text-white"
-                      : "bg-slate-900/60 text-slate-400 hover:text-green-400"
+                      ? "bg-highlighter text-ink"
+                      : "bg-ink/60 text-smoke/70 hover:text-highlighter"
                   } ${deadlinePassed ? "opacity-50 cursor-not-allowed" : "active:scale-[0.98]"}`}
                 >
                   VAI VIR
@@ -551,10 +547,10 @@ export default function PredictionsScreen({
                 <button
                   disabled={deadlinePassed}
                   onClick={() => handleClear(opt.id)}
-                  className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                  className={`flex-1 py-3 rounded-button text-xs sm:text-sm uppercase tracking-[0.05em] transition-all ${
                     !hasAnswer
-                      ? "bg-slate-600 text-white"
-                      : "bg-slate-900/60 text-slate-400 hover:text-white"
+                      ? "bg-white/15 text-paper"
+                      : "bg-ink/60 text-smoke/70 hover:text-paper"
                   } ${deadlinePassed ? "opacity-50 cursor-not-allowed" : "active:scale-[0.98]"}`}
                 >
                   EM BRANCO
@@ -562,10 +558,10 @@ export default function PredictionsScreen({
                 <button
                   disabled={deadlinePassed}
                   onClick={() => handlePrediction(opt.id, false)}
-                  className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                  className={`flex-1 py-3 rounded-button text-xs sm:text-sm uppercase tracking-[0.05em] transition-all ${
                     hasAnswer && answer === false
-                      ? "bg-red-500 text-white"
-                      : "bg-slate-900/60 text-slate-400 hover:text-red-400"
+                      ? "bg-paper text-ink"
+                      : "bg-ink/60 text-smoke/70 hover:text-paper"
                   } ${deadlinePassed ? "opacity-50 cursor-not-allowed" : "active:scale-[0.98]"}`}
                 >
                   NÃO VAI VIR
@@ -579,10 +575,10 @@ export default function PredictionsScreen({
                     onClick={() =>
                       setBoosterPicker(boosterPicker === opt.id ? null : opt.id)
                     }
-                    className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg transition-all ${
+                    className={`flex items-center gap-1.5 text-xs font-normal px-3 py-1.5 rounded-button transition-all ${
                       hasBooster
-                        ? "bg-amber-500/20 text-amber-300 ring-1 ring-amber-500/40"
-                        : "bg-slate-900/60 text-slate-400 hover:text-amber-400"
+                        ? "bg-highlighter/20 text-highlighter ring-1 ring-highlighter/40"
+                        : "bg-ink/60 text-smoke/70 hover:text-highlighter"
                     }`}
                   >
                     <Zap className="w-3.5 h-3.5" />
@@ -590,8 +586,8 @@ export default function PredictionsScreen({
                   </button>
 
                   {boosterPicker === opt.id && (
-                    <div className="absolute bottom-full left-0 mb-2 z-30 bg-slate-800 ring-1 ring-white/10 rounded-xl p-3 shadow-2xl w-64">
-                      <p className="text-[11px] text-slate-400 mb-2">
+                    <div className="absolute bottom-full left-0 mb-2 z-30 bg-obsidian ring-1 ring-hairline/15 rounded-input p-3 w-64">
+                      <p className="text-[11px] text-smoke/70 mb-2">
                         Se acertar / se errar (base +{ptsOk} / {ptsBad})
                       </p>
                       <div className="flex gap-2">
@@ -602,14 +598,14 @@ export default function PredictionsScreen({
                               setBoosterPicker(null);
                               handleBoosterClick(opt.id, m);
                             }}
-                            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${
+                            className={`flex-1 py-2 rounded-button text-xs font-normal transition-all ${
                               hasBooster && multiplier === m
-                                ? "bg-amber-500 text-slate-900"
-                                : "bg-slate-900/60 text-amber-400 hover:bg-slate-900"
+                                ? "bg-highlighter text-ink"
+                                : "bg-ink/60 text-highlighter hover:bg-ink"
                             }`}
                           >
                             x{m}
-                            <span className="block text-[10px] font-medium text-current opacity-70">
+                            <span className="block text-[10px] font-normal text-current opacity-70">
                               +{ptsOk * m} / {ptsBad * m}
                             </span>
                           </button>
@@ -621,7 +617,7 @@ export default function PredictionsScreen({
                             setBoosterPicker(null);
                             applyBooster(opt.id, 1);
                           }}
-                          className="w-full mt-2 py-2 rounded-lg text-xs font-medium bg-slate-900/60 text-slate-400 hover:text-red-400"
+                          className="w-full mt-2 py-2 rounded-button text-xs font-normal bg-ink/60 text-smoke/70 hover:text-paper"
                         >
                           Remover turbo
                         </button>
@@ -637,21 +633,21 @@ export default function PredictionsScreen({
 
       {/* Confirm button */}
       {!deadlinePassed && (
-        <div className="fixed bottom-0 left-0 right-0 z-20 bg-slate-950/30 backdrop-blur-md border-t border-white/10 px-4 py-3">
+        <div className="fixed bottom-0 left-0 right-0 z-20 bg-ink/30 backdrop-blur-md border-t border-hairline/15 px-4 py-3">
           <div className="max-w-4xl mx-auto flex items-center gap-3">
             {confirmed && (
-              <span className="text-xs text-green-400 flex items-center gap-1 flex-shrink-0">
+              <span className="text-xs text-highlighter flex items-center gap-1 flex-shrink-0">
                 <CheckCircle2 className="w-4 h-4" /> Confirmado
               </span>
             )}
             {!booster && !confirmed && (
-              <span className="text-[11px] text-slate-500 flex-shrink-0 hidden sm:block">
+              <span className="text-[11px] text-smoke/55 flex-shrink-0 hidden sm:block">
                 Dica: você ainda não usou seu turbo
               </span>
             )}
             <button
               onClick={handleConfirm}
-              className="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-3 rounded-xl text-sm transition-all active:scale-[0.98]"
+              className="flex-1 bg-highlighter hover:bg-highlighter/90 text-ink py-3.5 rounded-button text-sm uppercase tracking-[0.05em] transition-all active:scale-[0.98]"
             >
               Confirmar meus palpites
             </button>
@@ -662,22 +658,22 @@ export default function PredictionsScreen({
       {/* Modal: mover turbo */}
       {moveConfirm && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-ink/70 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setMoveConfirm(null)}
         >
           <div
-            className="bg-slate-800 rounded-2xl p-5 w-full max-w-md ring-1 ring-white/10"
+            className="bg-obsidian rounded-card p-5 w-full max-w-md ring-1 ring-hairline/15"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-white font-bold text-base mb-2">Mover turbo</h3>
-            <p className="text-slate-400 text-sm mb-4">
-              Seu turbo está em <strong className="text-white">{moveConfirm.fromTitle}</strong>.
+            <h3 className="text-paper font-normal text-base mb-2">Mover turbo</h3>
+            <p className="text-smoke/70 text-sm mb-4">
+              Seu turbo está em <strong className="text-paper">{moveConfirm.fromTitle}</strong>.
               Mover para esta?
             </p>
             <div className="flex gap-2">
               <button
                 onClick={() => setMoveConfirm(null)}
-                className="flex-1 bg-slate-700 text-slate-300 py-2.5 rounded-xl text-sm font-medium"
+                className="flex-1 bg-white/10 text-smoke py-2.5 rounded-input text-sm font-normal"
               >
                 Cancelar
               </button>
@@ -687,7 +683,7 @@ export default function PredictionsScreen({
                   setMoveConfirm(null);
                   applyBooster(optionId, multiplier);
                 }}
-                className="flex-1 bg-amber-500 text-slate-900 py-2.5 rounded-xl text-sm font-bold"
+                className="flex-1 bg-highlighter text-ink py-2.5 rounded-button text-sm font-normal"
               >
                 Mover turbo
               </button>

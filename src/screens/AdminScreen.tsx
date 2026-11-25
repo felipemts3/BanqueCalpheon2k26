@@ -39,25 +39,25 @@ export default function AdminScreen({
 
   if (!player?.is_master) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <p className="text-slate-400 text-sm">Acesso negado</p>
+      <div className="min-h-screen bg-ink flex items-center justify-center">
+        <p className="text-smoke/70 text-sm">Acesso negado</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      <header className="sticky top-0 z-20 bg-slate-900/80 backdrop-blur-xl border-b border-white/5">
+    <div className="min-h-screen bg-ink">
+      <header className="sticky top-0 z-20 bg-ink/80 backdrop-blur-xl border-b border-hairline/15">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
           <button
             onClick={onBack}
-            className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors"
+            className="p-2 rounded-button bg-obsidian text-smoke hover:bg-white/10 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2">
-            <Settings className="w-5 h-5 text-amber-400" />
-            <h1 className="text-white font-bold text-base sm:text-lg">Painel Admin</h1>
+            <Settings className="w-5 h-5 text-highlighter" />
+            <h1 className="text-paper text-subheading sm:text-heading-sm">Painel Admin</h1>
           </div>
         </div>
         {/* Tabs */}
@@ -77,10 +77,10 @@ export default function AdminScreen({
                 <button
                   key={t.key}
                   onClick={() => setTab(t.key)}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-button text-xs font-normal whitespace-nowrap transition-all ${
                     tab === t.key
-                      ? "bg-amber-500 text-slate-900"
-                      : "bg-slate-800 text-slate-400 hover:text-white"
+                      ? "bg-highlighter text-ink"
+                      : "bg-obsidian text-smoke/70 hover:text-paper"
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -169,7 +169,7 @@ function PlayersTab({ token }: { token: string | null }) {
   };
 
   if (loading) {
-    return <div className="text-slate-400 text-sm">Carregando jogadores...</div>;
+    return <div className="text-smoke/70 text-sm">Carregando jogadores...</div>;
   }
 
   return (
@@ -179,11 +179,11 @@ function PlayersTab({ token }: { token: string | null }) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Buscar por nome de família..."
-        className="w-full bg-slate-800 text-white rounded-xl px-4 py-2.5 text-sm border border-white/10 focus:border-amber-500/50 outline-none mb-4"
+        className="w-full bg-obsidian text-paper rounded-input px-4 py-2.5 text-sm border border-hairline/15 focus:border-highlighter/50 outline-none mb-4"
       />
 
       {message && (
-        <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-2.5 text-sm text-amber-400 mb-4">
+        <div className="bg-highlighter/10 border border-highlighter/20 rounded-button px-4 py-2.5 text-sm text-highlighter mb-4">
           {message}
         </div>
       )}
@@ -192,20 +192,20 @@ function PlayersTab({ token }: { token: string | null }) {
         {filtered.map((p) => (
           <div
             key={p.id}
-            className="bg-slate-800/40 rounded-xl px-4 py-3 flex items-center gap-3"
+            className="bg-obsidian/40 rounded-input px-4 py-3 flex items-center gap-3"
           >
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <p className="text-white font-semibold text-sm truncate">
+                <p className="text-paper font-normal text-sm truncate">
                   {p.family_name}
                 </p>
                 {p.is_master && (
-                  <span className="text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">
+                  <span className="text-[10px] bg-highlighter/20 text-highlighter px-1.5 py-0.5 rounded-tag font-normal">
                     MASTER
                   </span>
                 )}
               </div>
-              <p className="text-slate-500 text-xs mt-0.5">
+              <p className="text-smoke/55 text-xs mt-0.5">
                 {p.prediction_count} palpites
                 {p.confirmed_at && " · confirmou"}
               </p>
@@ -214,14 +214,14 @@ function PlayersTab({ token }: { token: string | null }) {
               <div className="flex gap-1.5 flex-shrink-0">
                 <button
                   onClick={() => setResetPlayer(p)}
-                  className="p-2 rounded-lg bg-slate-900/60 text-slate-400 hover:text-amber-400 transition-colors"
+                  className="p-2 rounded-button bg-ink/60 text-smoke/70 hover:text-highlighter transition-colors"
                   title="Resetar senha"
                 >
                   <KeyRound className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setDeletePlayer(p)}
-                  className="p-2 rounded-lg bg-slate-900/60 text-slate-400 hover:text-red-400 transition-colors"
+                  className="p-2 rounded-button bg-ink/60 text-smoke/70 hover:text-red-400 transition-colors"
                   title="Remover"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -235,8 +235,8 @@ function PlayersTab({ token }: { token: string | null }) {
       {/* Reset Pin Modal */}
       {resetPlayer && (
         <Modal onClose={() => { setResetPlayer(null); setNewPin(""); }}>
-          <h3 className="text-white font-bold text-base mb-2">Resetar senha</h3>
-          <p className="text-slate-400 text-sm mb-4">
+          <h3 className="text-paper font-normal text-base mb-2">Resetar senha</h3>
+          <p className="text-smoke/70 text-sm mb-4">
             Nova senha de 4 dígitos para {resetPlayer.family_name}
           </p>
           <input
@@ -246,19 +246,19 @@ function PlayersTab({ token }: { token: string | null }) {
             maxLength={4}
             inputMode="numeric"
             placeholder="••••"
-            className="w-full bg-slate-900 text-white rounded-xl px-4 py-3 text-sm border border-white/10 focus:border-amber-500/50 outline-none tracking-widest text-center text-lg"
+            className="w-full bg-ink text-paper rounded-input px-4 py-3 text-sm border border-hairline/15 focus:border-highlighter/50 outline-none tracking-[0.05em] text-center text-lg"
           />
           <div className="flex gap-2 mt-4">
             <button
               onClick={() => { setResetPlayer(null); setNewPin(""); }}
-              className="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl text-sm font-medium"
+              className="flex-1 bg-obsidian text-smoke py-2.5 rounded-input text-sm font-normal"
             >
               Cancelar
             </button>
             <button
               onClick={handleResetPin}
               disabled={!/^[0-9]{4}$/.test(newPin)}
-              className="flex-1 bg-amber-500 disabled:opacity-50 text-slate-900 py-2.5 rounded-xl text-sm font-bold"
+              className="flex-1 bg-highlighter disabled:opacity-50 text-ink py-2.5 rounded-button text-sm font-normal"
             >
               Confirmar
             </button>
@@ -269,21 +269,21 @@ function PlayersTab({ token }: { token: string | null }) {
       {/* Delete Modal */}
       {deletePlayer && (
         <Modal onClose={() => setDeletePlayer(null)}>
-          <h3 className="text-white font-bold text-base mb-2">Remover jogador</h3>
-          <p className="text-slate-400 text-sm mb-4">
-            Tem certeza que deseja remover <strong className="text-white">{deletePlayer.family_name}</strong>?
+          <h3 className="text-paper font-normal text-base mb-2">Remover jogador</h3>
+          <p className="text-smoke/70 text-sm mb-4">
+            Tem certeza que deseja remover <strong className="text-paper">{deletePlayer.family_name}</strong>?
             Todos os palpites deste jogador serão perdidos.
           </p>
           <div className="flex gap-2 mt-4">
             <button
               onClick={() => setDeletePlayer(null)}
-              className="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl text-sm font-medium"
+              className="flex-1 bg-obsidian text-smoke py-2.5 rounded-input text-sm font-normal"
             >
               Cancelar
             </button>
             <button
               onClick={handleDelete}
-              className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2.5 rounded-xl text-sm font-bold"
+              className="flex-1 bg-red-500 hover:bg-red-600 text-paper py-2.5 rounded-input text-sm font-normal"
             >
               Remover
             </button>
@@ -374,14 +374,14 @@ function CategoriesTab({ token }: { token: string | null }) {
   return (
     <div>
       {message && (
-        <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-2.5 text-sm text-amber-400 mb-4">
+        <div className="bg-highlighter/10 border border-highlighter/20 rounded-button px-4 py-2.5 text-sm text-highlighter mb-4">
           {message}
         </div>
       )}
 
       <button
         onClick={() => setEditingCat({ name: "", icon: "", sort_order: 0 })}
-        className="flex items-center gap-1.5 bg-amber-500 text-slate-900 font-bold px-3 py-2 rounded-xl text-sm mb-4"
+        className="flex items-center gap-1.5 bg-highlighter text-ink font-normal px-3 py-2 rounded-button text-sm mb-4"
       >
         <Plus className="w-4 h-4" /> Nova categoria
       </button>
@@ -392,31 +392,31 @@ function CategoriesTab({ token }: { token: string | null }) {
           const catOpts = options.filter((o) => o.category_id === cat.id);
           const isOpen = expandedCat === cat.id;
           return (
-            <div key={cat.id} className="bg-slate-800/40 rounded-xl overflow-hidden">
+            <div key={cat.id} className="bg-obsidian/40 rounded-input overflow-hidden">
               <div className="flex items-center gap-3 px-4 py-3">
-                <Icon className="w-5 h-5 text-amber-400 flex-shrink-0" />
-                <span className="text-white font-semibold text-sm flex-1">{cat.name}</span>
-                <span className="text-slate-500 text-xs">{catOpts.length} opções</span>
+                <Icon className="w-5 h-5 text-highlighter flex-shrink-0" />
+                <span className="text-paper font-normal text-sm flex-1">{cat.name}</span>
+                <span className="text-smoke/55 text-xs">{catOpts.length} opções</span>
                 <button
                   onClick={() => setExpandedCat(isOpen ? null : cat.id)}
-                  className="p-1.5 rounded-lg bg-slate-900/60 text-slate-400"
+                  className="p-1.5 rounded-button bg-ink/60 text-smoke/70"
                 >
                   {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </button>
               </div>
 
               {isOpen && (
-                <div className="border-t border-white/5 p-3 space-y-2">
+                <div className="border-t border-hairline/15 p-3 space-y-2">
                   <div className="flex gap-1.5 mb-2">
                     <button
                       onClick={() => setEditingCat({ ...cat })}
-                      className="text-xs bg-slate-900/60 text-slate-300 px-2.5 py-1.5 rounded-lg"
+                      className="text-xs bg-ink/60 text-smoke px-2.5 py-1.5 rounded-button"
                     >
                       Editar
                     </button>
                     <button
                       onClick={() => deleteCat(cat.id)}
-                      className="text-xs bg-slate-900/60 text-red-400 px-2.5 py-1.5 rounded-lg"
+                      className="text-xs bg-ink/60 text-red-400 px-2.5 py-1.5 rounded-button"
                     >
                       Excluir
                     </button>
@@ -431,7 +431,7 @@ function CategoriesTab({ token }: { token: string | null }) {
                           is_active: true,
                         })
                       }
-                      className="text-xs bg-amber-500/20 text-amber-400 px-2.5 py-1.5 rounded-lg ml-auto"
+                      className="text-xs bg-highlighter/20 text-highlighter px-2.5 py-1.5 rounded-button ml-auto"
                     >
                       + Nova opção
                     </button>
@@ -439,29 +439,29 @@ function CategoriesTab({ token }: { token: string | null }) {
                   {catOpts.map((opt) => (
                     <div
                       key={opt.id}
-                      className="flex items-start gap-2 bg-slate-900/40 rounded-lg px-3 py-2"
+                      className="flex items-start gap-2 bg-ink/40 rounded-button px-3 py-2"
                     >
                       <span className="text-lg flex-shrink-0">{opt.emoji || "•"}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white text-sm font-medium">{opt.title}</p>
+                        <p className="text-paper text-sm font-normal">{opt.title}</p>
                         {opt.description && (
-                          <p className="text-slate-500 text-xs mt-0.5">{opt.description}</p>
+                          <p className="text-smoke/55 text-xs mt-0.5">{opt.description}</p>
                         )}
                         <div className="flex items-center gap-2 mt-1">
                           {!opt.is_active && (
-                            <span className="text-[10px] bg-slate-700 text-slate-400 px-1.5 py-0.5 rounded">
+                            <span className="text-[10px] bg-white/10 text-smoke/70 px-1.5 py-0.5 rounded-tag">
                               oculta
                             </span>
                           )}
                           <button
                             onClick={() => setEditingOpt({ ...opt })}
-                            className="text-xs text-slate-400 hover:text-amber-400"
+                            className="text-xs text-smoke/70 hover:text-highlighter"
                           >
                             editar
                           </button>
                           <button
                             onClick={() => deleteOpt(opt.id)}
-                            className="text-xs text-slate-400 hover:text-red-400"
+                            className="text-xs text-smoke/70 hover:text-red-400"
                           >
                             excluir
                           </button>
@@ -479,7 +479,7 @@ function CategoriesTab({ token }: { token: string | null }) {
       {/* Category editor modal */}
       {editingCat && (
         <Modal onClose={() => setEditingCat(null)}>
-          <h3 className="text-white font-bold text-base mb-4">
+          <h3 className="text-paper font-normal text-base mb-4">
             {editingCat.id ? "Editar categoria" : "Nova categoria"}
           </h3>
           <div className="space-y-3">
@@ -512,10 +512,10 @@ function CategoriesTab({ token }: { token: string | null }) {
             </Field>
           </div>
           <div className="flex gap-2 mt-4">
-            <button onClick={() => setEditingCat(null)} className="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl text-sm font-medium">
+            <button onClick={() => setEditingCat(null)} className="flex-1 bg-obsidian text-smoke py-2.5 rounded-input text-sm font-normal">
               Cancelar
             </button>
-            <button onClick={saveCat} className="flex-1 bg-amber-500 text-slate-900 py-2.5 rounded-xl text-sm font-bold">
+            <button onClick={saveCat} className="flex-1 bg-highlighter text-ink py-2.5 rounded-button text-sm font-normal">
               Salvar
             </button>
           </div>
@@ -525,7 +525,7 @@ function CategoriesTab({ token }: { token: string | null }) {
       {/* Option editor modal */}
       {editingOpt && (
         <Modal onClose={() => setEditingOpt(null)}>
-          <h3 className="text-white font-bold text-base mb-4">
+          <h3 className="text-paper font-normal text-base mb-4">
             {editingOpt.id ? "Editar opção" : "Nova opção"}
           </h3>
           <div className="space-y-3">
@@ -565,21 +565,21 @@ function CategoriesTab({ token }: { token: string | null }) {
                 />
               </Field>
             </div>
-            <label className="flex items-center gap-2 text-sm text-slate-300">
+            <label className="flex items-center gap-2 text-sm text-smoke">
               <input
                 type="checkbox"
                 checked={editingOpt.is_active ?? true}
                 onChange={(e) => setEditingOpt({ ...editingOpt, is_active: e.target.checked })}
-                className="w-4 h-4 accent-amber-500"
+                className="w-4 h-4 accent-highlighter"
               />
               Ativa (visível para jogadores)
             </label>
           </div>
           <div className="flex gap-2 mt-4">
-            <button onClick={() => setEditingOpt(null)} className="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl text-sm font-medium">
+            <button onClick={() => setEditingOpt(null)} className="flex-1 bg-obsidian text-smoke py-2.5 rounded-input text-sm font-normal">
               Cancelar
             </button>
-            <button onClick={saveOpt} className="flex-1 bg-amber-500 text-slate-900 py-2.5 rounded-xl text-sm font-bold">
+            <button onClick={saveOpt} className="flex-1 bg-highlighter text-ink py-2.5 rounded-button text-sm font-normal">
               Salvar
             </button>
           </div>
@@ -644,51 +644,51 @@ function DeadlineTab({ token }: { token: string | null }) {
   return (
     <div className="space-y-6">
       {message && (
-        <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-2.5 text-sm text-amber-400">
+        <div className="bg-highlighter/10 border border-highlighter/20 rounded-button px-4 py-2.5 text-sm text-highlighter">
           {message}
         </div>
       )}
 
       {/* Deadline */}
-      <div className="bg-slate-800/40 rounded-2xl p-5">
+      <div className="bg-obsidian/40 rounded-card p-5">
         <div className="flex items-center gap-2 mb-4">
-          <Clock className="w-5 h-5 text-amber-400" />
-          <h3 className="text-white font-bold text-sm">Data/hora limite</h3>
+          <Clock className="w-5 h-5 text-highlighter" />
+          <h3 className="text-paper font-normal text-sm">Data/hora limite</h3>
         </div>
-        <p className="text-slate-400 text-xs mb-3">
+        <p className="text-smoke/70 text-xs mb-3">
           Atualmente: {settings?.deadline ? new Date(settings.deadline).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" }) : "—"}
         </p>
         <input
           type="datetime-local"
           value={deadlineLocal}
           onChange={(e) => setDeadlineLocal(e.target.value)}
-          className="w-full bg-slate-900 text-white rounded-xl px-4 py-3 text-sm border border-white/10 focus:border-amber-500/50 outline-none mb-3"
+          className="w-full bg-ink text-paper rounded-input px-4 py-3 text-sm border border-hairline/15 focus:border-highlighter/50 outline-none mb-3"
         />
         <button
           onClick={saveDeadline}
-          className="w-full bg-amber-500 text-slate-900 font-bold py-2.5 rounded-xl text-sm"
+          className="w-full bg-highlighter text-ink font-normal py-2.5 rounded-button text-sm"
         >
           Salvar prazo
         </button>
       </div>
 
       {/* Publish results */}
-      <div className="bg-slate-800/40 rounded-2xl p-5">
+      <div className="bg-obsidian/40 rounded-card p-5">
         <div className="flex items-center gap-2 mb-4">
-          <CheckSquare className="w-5 h-5 text-amber-400" />
-          <h3 className="text-white font-bold text-sm">Publicar resultados</h3>
+          <CheckSquare className="w-5 h-5 text-highlighter" />
+          <h3 className="text-paper font-normal text-sm">Publicar resultados</h3>
         </div>
-        <p className="text-slate-400 text-xs mb-4">
+        <p className="text-smoke/70 text-xs mb-4">
           {published
             ? "Os resultados estão públicos. Todos podem ver o ranking."
             : "Os resultados estão ocultos. Marque o gabarito antes de publicar."}
         </p>
         <button
           onClick={togglePublish}
-          className={`w-full font-bold py-2.5 rounded-xl text-sm transition-all ${
+          className={`w-full font-normal py-2.5 rounded-input text-sm transition-all ${
             published
               ? "bg-red-500/20 text-red-400 hover:bg-red-500/30"
-              : "bg-green-500 text-white hover:bg-green-400"
+              : "bg-highlighter text-ink hover:bg-highlighter/90"
           }`}
         >
           {published ? "Despublicar resultados" : "Publicar resultados"}
@@ -740,12 +740,12 @@ function GabaritoTab({ token }: { token: string | null }) {
   return (
     <div>
       {message && (
-        <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-2.5 text-sm text-amber-400 mb-4">
+        <div className="bg-highlighter/10 border border-highlighter/20 rounded-button px-4 py-2.5 text-sm text-highlighter mb-4">
           {message}
         </div>
       )}
 
-      <p className="text-slate-400 text-xs mb-4">
+      <p className="text-smoke/70 text-xs mb-4">
         Marque cada opção como "Aconteceu" ou "Não aconteceu". É possível corrigir depois.
       </p>
 
@@ -756,34 +756,34 @@ function GabaritoTab({ token }: { token: string | null }) {
         return (
           <div key={cat.id} className="mb-5">
             <div className="flex items-center gap-2 mb-2">
-              <Icon className="w-4 h-4 text-amber-400" />
-              <h3 className="text-white font-bold text-sm">{cat.name}</h3>
+              <Icon className="w-4 h-4 text-highlighter" />
+              <h3 className="text-paper font-normal text-sm">{cat.name}</h3>
             </div>
             <div className="space-y-2">
               {catOpts.map((opt) => (
                 <div
                   key={opt.id}
-                  className="bg-slate-800/40 rounded-xl px-3 py-2.5 flex items-center gap-3"
+                  className="bg-obsidian/40 rounded-input px-3 py-2.5 flex items-center gap-3"
                 >
                   <span className="text-lg flex-shrink-0">{opt.emoji || "•"}</span>
-                  <span className="text-white text-sm flex-1 truncate">{opt.title}</span>
+                  <span className="text-paper text-sm flex-1 truncate">{opt.title}</span>
                   <div className="flex gap-1.5 flex-shrink-0">
                     <button
                       onClick={() => setResult(opt.id, true)}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                      className={`px-2.5 py-1 rounded-button text-xs font-normal transition-all ${
                         opt.happened === true
-                          ? "bg-green-500 text-white"
-                          : "bg-slate-900/60 text-slate-400"
+                          ? "bg-highlighter text-ink"
+                          : "bg-ink/60 text-smoke/70"
                       }`}
                     >
                       Sim
                     </button>
                     <button
                       onClick={() => setResult(opt.id, false)}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                      className={`px-2.5 py-1 rounded-button text-xs font-normal transition-all ${
                         opt.happened === false
-                          ? "bg-red-500 text-white"
-                          : "bg-slate-900/60 text-slate-400"
+                          ? "bg-paper text-ink"
+                          : "bg-ink/60 text-smoke/70"
                       }`}
                     >
                       Não
@@ -841,45 +841,45 @@ function RankingTab({ token }: { token: string | null }) {
   };
 
   if (loading) {
-    return <div className="text-slate-400 text-sm">Carregando ranking...</div>;
+    return <div className="text-smoke/70 text-sm">Carregando ranking...</div>;
   }
 
   return (
     <div>
       <button
         onClick={exportCSV}
-        className="flex items-center gap-1.5 bg-amber-500 text-slate-900 font-bold px-3 py-2 rounded-xl text-sm mb-4"
+        className="flex items-center gap-1.5 bg-highlighter text-ink font-normal px-3 py-2 rounded-button text-sm mb-4"
       >
         <Download className="w-4 h-4" /> Exportar CSV
       </button>
 
       {ranking.length === 0 ? (
-        <p className="text-slate-400 text-sm">Nenhum palpite registrado.</p>
+        <p className="text-smoke/70 text-sm">Nenhum palpite registrado.</p>
       ) : (
         <div className="space-y-2">
           {ranking.map((entry, i) => (
             <div
               key={entry.player_id}
-              className="flex items-center gap-3 bg-slate-800/40 rounded-xl px-4 py-3"
+              className="flex items-center gap-3 bg-obsidian/40 rounded-input px-4 py-3"
             >
-              <span className="text-slate-500 font-bold text-sm w-6 text-center">
+              <span className="text-smoke/55 font-normal text-sm w-6 text-center">
                 {i + 1}
               </span>
-              <span className="text-white font-semibold text-sm flex-1 truncate flex items-center gap-1.5">
+              <span className="text-paper font-normal text-sm flex-1 truncate flex items-center gap-1.5">
                 {entry.family_name}
                 {entry.booster_multiplier && entry.booster_multiplier > 1 && (
                   <span
-                    className="flex items-center gap-0.5 bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded ring-1 ring-amber-500/40 flex-shrink-0"
+                    className="flex items-center gap-0.5 bg-highlighter/20 text-highlighter text-[10px] px-1.5 py-0.5 rounded-tag ring-1 ring-highlighter/40 flex-shrink-0"
                     title={entry.booster_option_title ?? ""}
                   >
                     <Zap className="w-3 h-3" /> x{entry.booster_multiplier}
                   </span>
                 )}
               </span>
-              <span className="text-slate-500 text-xs">{entry.correct_count} acertos</span>
+              <span className="text-smoke/55 text-xs">{entry.correct_count} acertos</span>
               <span
-                className={`font-bold text-sm tabular-nums ${
-                  entry.total_points > 0 ? "text-green-400" : entry.total_points < 0 ? "text-red-400" : "text-slate-400"
+                className={`font-normal text-sm tabular-nums ${
+                  entry.total_points > 0 ? "text-highlighter" : entry.total_points < 0 ? "text-smoke" : "text-smoke/70"
                 }`}
               >
                 {entry.total_points > 0 ? "+" : ""}{entry.total_points}
@@ -897,11 +897,11 @@ function RankingTab({ token }: { token: string | null }) {
 function Modal({ children, onClose }: { children: React.ReactNode; onClose: () => void }) {
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-ink/70 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={onClose}
     >
       <div
-        className="bg-slate-800 rounded-2xl p-5 w-full max-w-md ring-1 ring-white/10 max-h-[85vh] overflow-y-auto"
+        className="bg-obsidian rounded-card p-5 w-full max-w-md ring-1 ring-hairline/15 max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
@@ -913,7 +913,7 @@ function Modal({ children, onClose }: { children: React.ReactNode; onClose: () =
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-slate-400 mb-1">{label}</label>
+      <label className="block text-xs font-normal text-smoke/70 mb-1">{label}</label>
       {children}
     </div>
   );

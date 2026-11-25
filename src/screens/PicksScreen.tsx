@@ -69,49 +69,49 @@ export default function PicksScreen({ onBack }: { onBack: () => void }) {
   });
 
   return (
-    <div className="min-h-screen bg-slate-900 pb-10">
-      <header className="sticky top-0 z-20 bg-slate-900/80 backdrop-blur-xl border-b border-white/5">
+    <div className="min-h-screen bg-ink pb-10">
+      <header className="sticky top-0 z-20 bg-ink/80 backdrop-blur-xl border-b border-hairline/15">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
           <button
             onClick={onBack}
-            className="p-2 rounded-lg bg-slate-800 text-amber-400 hover:bg-slate-700"
+            className="p-2 rounded-button bg-obsidian text-highlighter hover:bg-white/10"
             title="Voltar"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-white font-bold text-base">Palpites da galera</h1>
+          <h1 className="text-paper text-subheading">Palpites da galera</h1>
         </div>
       </header>
 
       <div className="max-w-4xl mx-auto px-4 mt-4">
         {loading ? (
-          <p className="text-amber-400 animate-pulse text-sm">Carregando...</p>
+          <p className="text-highlighter animate-pulse text-sm">Carregando...</p>
         ) : !revealed ? (
-          <div className="bg-slate-800/60 rounded-2xl p-6 text-center">
-            <Lock className="w-6 h-6 text-amber-400 mx-auto mb-2" />
-            <p className="text-white font-semibold text-sm">
+          <div className="bg-obsidian/60 rounded-card p-6 text-center">
+            <Lock className="w-6 h-6 text-highlighter mx-auto mb-2" />
+            <p className="text-paper font-normal text-sm">
               Os palpites dos outros jogadores ficam visíveis após o encerramento do prazo.
             </p>
           </div>
         ) : picks.length === 0 ? (
-          <p className="text-slate-400 text-sm">Ninguém enviou palpites.</p>
+          <p className="text-smoke/70 text-sm">Ninguém enviou palpites.</p>
         ) : (
           <>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar família..."
-              className="w-full bg-slate-800 text-white text-sm rounded-xl px-4 py-2.5 mb-3 outline-none ring-1 ring-white/5 focus:ring-amber-500/50"
+              className="w-full bg-obsidian text-paper text-sm rounded-input px-4 py-2.5 mb-3 outline-none ring-1 ring-hairline/15 focus:ring-highlighter/50"
             />
             <div className="flex gap-2 overflow-x-auto pb-2">
               {players.map((p) => (
                 <button
                   key={p.id}
                   onClick={() => setSelected(p.id)}
-                  className={`px-3.5 py-2 rounded-xl text-sm font-medium whitespace-nowrap ${
+                  className={`px-3.5 py-2 rounded-input text-sm font-normal whitespace-nowrap ${
                     current === p.id
-                      ? "bg-amber-500 text-slate-900"
-                      : "bg-slate-800 text-slate-400 hover:text-white"
+                      ? "bg-highlighter text-ink"
+                      : "bg-obsidian text-smoke/70 hover:text-paper"
                   }`}
                 >
                   {p.name}
@@ -119,7 +119,7 @@ export default function PicksScreen({ onBack }: { onBack: () => void }) {
               ))}
             </div>
 
-            <p className="text-xs text-slate-400 mt-3">
+            <p className="text-xs text-smoke/70 mt-3">
               {answers.size} palpites
               {options.some((o) => o.happened !== null) && ` · ${total} pontos`}
             </p>
@@ -130,7 +130,7 @@ export default function PicksScreen({ onBack }: { onBack: () => void }) {
                 if (opts.length === 0) return null;
                 return (
                   <section key={cat.id}>
-                    <h2 className="text-amber-400 text-xs font-bold uppercase tracking-wide mb-2">
+                    <h2 className="text-highlighter text-xs font-normal uppercase tracking-[0.05em] mb-2">
                       {cat.name}
                     </h2>
                     <div className="space-y-2">
@@ -143,30 +143,30 @@ export default function PicksScreen({ onBack }: { onBack: () => void }) {
                         return (
                           <div
                             key={o.id}
-                            className={`flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm ring-1 ${
+                            className={`flex items-center justify-between gap-3 rounded-input px-4 py-3 text-sm ring-1 ${
                               hit
-                                ? "bg-green-500/10 ring-green-500/20"
+                                ? "bg-highlighter/10 ring-highlighter/30"
                                 : miss
-                                ? "bg-red-500/10 ring-red-500/20"
+                                ? "bg-white/5 ring-hairline/15"
                                 : boosted
-                                ? "bg-slate-800/60 ring-amber-500/40"
-                                : "bg-slate-800/60 ring-white/5"
+                                ? "bg-obsidian/60 ring-highlighter/40"
+                                : "bg-obsidian/60 ring-hairline/15"
                             }`}
                           >
-                            <span className="text-white">
+                            <span className="text-paper">
                               {o.emoji} {o.title}
                             </span>
                             <span
-                              className={`font-bold text-xs whitespace-nowrap flex items-center gap-1.5 ${
+                              className={`font-normal text-xs whitespace-nowrap flex items-center gap-1.5 ${
                                 a === undefined
-                                  ? "text-slate-500"
+                                  ? "text-smoke/55"
                                   : a.answer
-                                  ? "text-green-400"
-                                  : "text-red-400"
+                                  ? "text-highlighter"
+                                  : "text-paper"
                               }`}
                             >
                               {boosted && (
-                                <span className="flex items-center gap-0.5 bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ring-1 ring-amber-500/40">
+                                <span className="flex items-center gap-0.5 bg-highlighter/20 text-highlighter px-1.5 py-0.5 rounded-tag ring-1 ring-highlighter/40">
                                   <Zap className="w-3 h-3" /> x{a!.multiplier}
                                 </span>
                               )}

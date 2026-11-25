@@ -39,8 +39,8 @@ export default function Countdown({ deadline }: CountdownProps) {
 
   if (passed) {
     return (
-      <div className="bg-red-500/15 border border-red-500/30 rounded-xl px-4 py-3 text-center">
-        <span className="text-red-400 font-bold text-sm">
+      <div className="bg-paper rounded-input px-4 py-3 text-center">
+        <span className="text-ink font-normal text-sm uppercase tracking-[0.05em]">
           Palpites encerrados
         </span>
       </div>
@@ -55,20 +55,20 @@ export default function Countdown({ deadline }: CountdownProps) {
   ];
 
   return (
-    <div className="bg-slate-900/40 rounded-xl px-3 py-2.5">
+    <div className="bg-ink/40 rounded-card px-4 py-3 ring-1 ring-hairline/15">
       <div className="flex items-center justify-center gap-2 sm:gap-3">
         {units.map((u, i) => (
           <div key={u.label} className="flex items-center gap-2 sm:gap-3">
             <div className="text-center">
-              <div className="text-lg sm:text-xl font-bold text-amber-400 tabular-nums leading-none">
+              <div className="text-[28px] sm:text-[40px] font-normal text-highlighter tabular-nums leading-none">
                 {formatZero(u.value)}
               </div>
-              <div className="text-[10px] text-slate-500 uppercase tracking-wide mt-0.5">
+              <div className="text-[10px] text-smoke/70 uppercase tracking-[0.018em] leading-[2.2]">
                 {u.label}
               </div>
             </div>
             {i < units.length - 1 && (
-              <span className="text-amber-500/30 text-lg font-bold">:</span>
+              <span className="text-highlighter/30 text-[28px] sm:text-[40px] leading-none font-normal">:</span>
             )}
           </div>
         ))}

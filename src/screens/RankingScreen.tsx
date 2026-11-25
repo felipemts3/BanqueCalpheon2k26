@@ -51,26 +51,26 @@ export default function RankingScreen({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="text-amber-400 animate-pulse text-sm">Carregando ranking...</div>
+      <div className="min-h-screen bg-ink flex items-center justify-center">
+        <div className="text-highlighter animate-pulse text-sm">Carregando ranking...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-ink">
       {/* Header */}
-      <header className="sticky top-0 z-20 bg-slate-900/80 backdrop-blur-xl border-b border-white/5">
+      <header className="sticky top-0 z-20 bg-ink/80 backdrop-blur-xl border-b border-hairline/15">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
           <button
             onClick={onBack}
-            className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors"
+            className="p-2 rounded-button bg-obsidian text-smoke hover:bg-white/10 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-amber-400" />
-            <h1 className="text-white font-bold text-base sm:text-lg">Ranking</h1>
+            <Trophy className="w-5 h-5 text-highlighter" />
+            <h1 className="text-paper text-subheading sm:text-heading-sm">Ranking</h1>
           </div>
         </div>
       </header>
@@ -78,20 +78,20 @@ export default function RankingScreen({
       <div className="max-w-4xl mx-auto px-4 py-6">
         {notPublished ? (
           <div className="text-center py-20">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-800 rounded-2xl mb-4">
-              <Lock className="w-8 h-8 text-slate-500" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-obsidian rounded-card mb-4">
+              <Lock className="w-8 h-8 text-smoke/55" />
             </div>
-            <h2 className="text-white font-bold text-lg mb-2">
+            <h2 className="text-paper text-heading-sm mb-2">
               Resultados ainda não publicados
             </h2>
-            <p className="text-slate-400 text-sm max-w-xs mx-auto">
+            <p className="text-smoke/70 text-sm max-w-xs mx-auto">
               O ranking será revelado quando o administrador publicar o gabarito
               após o evento.
             </p>
           </div>
         ) : ranking.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-slate-400 text-sm">
+            <p className="text-smoke/70 text-sm">
               Nenhum palpite registrado ainda.
             </p>
           </div>
@@ -106,9 +106,9 @@ export default function RankingScreen({
                     entry={ranking[1]}
                     place={2}
                     height="h-24"
-                    icon={<Medal className="w-5 h-5 text-slate-300" />}
-                    ring="ring-slate-400/30"
-                    bg="bg-slate-800/60"
+                    icon={<Medal className="w-5 h-5 text-smoke" />}
+                    ring="ring-smoke/30"
+                    bg="bg-obsidian/60"
                   />
                 )}
                 {/* 1st place */}
@@ -116,9 +116,9 @@ export default function RankingScreen({
                   entry={ranking[0]}
                   place={1}
                   height="h-32"
-                  icon={<Trophy className="w-6 h-6 text-amber-400" />}
-                  ring="ring-amber-500/40"
-                  bg="bg-amber-500/10"
+                  icon={<Trophy className="w-6 h-6 text-highlighter" />}
+                  ring="ring-highlighter/40"
+                  bg="bg-highlighter/10"
                 />
                 {/* 3rd place */}
                 {ranking[2] && (
@@ -126,9 +126,9 @@ export default function RankingScreen({
                     entry={ranking[2]}
                     place={3}
                     height="h-20"
-                    icon={<Medal className="w-5 h-5 text-amber-700" />}
-                    ring="ring-amber-700/30"
-                    bg="bg-slate-800/40"
+                    icon={<Medal className="w-5 h-5 text-smoke/60" />}
+                    ring="ring-smoke/20"
+                    bg="bg-obsidian/40"
                   />
                 )}
               </div>
@@ -139,43 +139,43 @@ export default function RankingScreen({
               {ranking.map((entry, i) => (
                 <div
                   key={entry.player_id}
-                  className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${
+                  className={`flex items-center gap-3 rounded-input px-4 py-3 transition-all ${
                     entry.player_id === player?.id
-                      ? "bg-amber-500/10 ring-1 ring-amber-500/30"
-                      : "bg-slate-800/40"
+                      ? "bg-highlighter/10 ring-1 ring-highlighter/30"
+                      : "bg-obsidian/40"
                   }`}
                 >
                   <div className="w-8 text-center flex-shrink-0">
                     <span
-                      className={`font-bold text-sm ${
+                      className={`font-normal text-sm ${
                         i === 0
-                          ? "text-amber-400"
+                          ? "text-highlighter"
                           : i === 1
-                          ? "text-slate-300"
+                          ? "text-smoke"
                           : i === 2
-                          ? "text-amber-700"
-                          : "text-slate-500"
+                          ? "text-smoke/60"
+                          : "text-smoke/55"
                       }`}
                     >
                       {i + 1}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-white font-semibold text-sm truncate flex items-center gap-1.5">
+                    <p className="text-paper font-normal text-sm truncate flex items-center gap-1.5">
                       {entry.family_name}
                       {entry.player_id === player?.id && (
-                        <span className="text-amber-400 text-xs">(você)</span>
+                        <span className="text-highlighter text-xs">(você)</span>
                       )}
                       {entry.booster_multiplier && entry.booster_multiplier > 1 && (
                         <span
-                          className="flex items-center gap-0.5 bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded ring-1 ring-amber-500/40 flex-shrink-0"
+                          className="flex items-center gap-0.5 bg-highlighter/20 text-highlighter text-[10px] px-1.5 py-0.5 rounded-tag ring-1 ring-highlighter/40 flex-shrink-0"
                           title={entry.booster_option_title ?? ""}
                         >
                           <Zap className="w-3 h-3" /> x{entry.booster_multiplier}
                         </span>
                       )}
                     </p>
-                    <p className="text-slate-500 text-xs truncate">
+                    <p className="text-smoke/55 text-xs truncate">
                       {entry.correct_count} acertos
                       {entry.booster_multiplier && entry.booster_multiplier > 1 &&
                         ` · turbo em ${entry.booster_option_title}`}
@@ -183,18 +183,18 @@ export default function RankingScreen({
                   </div>
                   <div className="text-right flex-shrink-0">
                     <span
-                      className={`font-bold text-base tabular-nums ${
+                      className={`font-normal text-base tabular-nums ${
                         entry.total_points > 0
-                          ? "text-green-400"
+                          ? "text-highlighter"
                           : entry.total_points < 0
-                          ? "text-red-400"
-                          : "text-slate-400"
+                          ? "text-smoke"
+                          : "text-smoke/70"
                       }`}
                     >
                       {entry.total_points > 0 ? "+" : ""}
                       {entry.total_points}
                     </span>
-                    <span className="text-slate-500 text-xs ml-1">pts</span>
+                    <span className="text-smoke/55 text-xs ml-1">pts</span>
                   </div>
                 </div>
               ))}
@@ -223,25 +223,25 @@ function PodiumCard({
 }) {
   return (
     <div
-      className={`${bg} ${ring} ring-1 rounded-xl ${height} flex flex-col items-center justify-center px-2`}
+      className={`${bg} ${ring} ring-1 rounded-input ${height} flex flex-col items-center justify-center px-2`}
     >
       <div className="mb-1">{icon}</div>
-      <p className="text-white font-bold text-xs sm:text-sm truncate w-full text-center">
+      <p className="text-paper font-normal text-xs sm:text-sm truncate w-full text-center">
         {entry.family_name}
       </p>
       <p
-        className={`font-bold text-base sm:text-lg tabular-nums ${
+        className={`font-normal text-base sm:text-lg tabular-nums ${
           entry.total_points > 0
-            ? "text-green-400"
+            ? "text-highlighter"
             : entry.total_points < 0
-            ? "text-red-400"
-            : "text-slate-400"
+            ? "text-smoke"
+            : "text-smoke/70"
         }`}
       >
         {entry.total_points > 0 ? "+" : ""}
         {entry.total_points}
       </p>
-      <span className="text-slate-500 text-[10px]">#{place}</span>
+      <span className="text-smoke/55 text-[10px]">#{place}</span>
     </div>
   );
 }

@@ -22,8 +22,8 @@ function AppContent() {
   const renderScreen = () => {
     if (loading) {
       return (
-        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-          <div className="text-amber-400 animate-pulse text-sm">Carregando...</div>
+        <div className="min-h-screen bg-ink flex items-center justify-center">
+          <div className="text-highlighter animate-pulse text-sm">Carregando...</div>
         </div>
       );
     }
