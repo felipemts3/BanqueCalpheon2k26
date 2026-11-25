@@ -282,7 +282,7 @@ export default function PredictionsScreen({
   return (
     <div className="min-h-screen pb-24">
       {/* Header */}
-      <header className="sticky top-0 z-20 bg-slate-900/80 backdrop-blur-xl border-b border-white/5">
+      <header className="sticky top-0 z-20 bg-slate-950/30 backdrop-blur-md border-b border-white/10">
         <div className="max-w-4xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between mb-3">
             <div>
@@ -346,11 +346,41 @@ export default function PredictionsScreen({
           </div>
 
           {/* Regras */}
-          <p className="mt-2 text-[11px] text-slate-500 leading-relaxed">
-            Acertou: +{ptsOk} · Errou: {ptsBad} · Deixar em branco = 0 pontos, sem risco.
-            Turbo x2/x4/x8 multiplica acerto e erro de UMA opção (ex.: x4 acertando = +
-            {ptsOk * 4}, errando = {ptsBad * 4}).
-          </p>
+          <div className="mt-3 rounded-xl bg-slate-950/50 ring-1 ring-white/10 p-3">
+            <p className="text-xs font-bold uppercase tracking-wide text-amber-400 mb-2">
+              Como pontua
+            </p>
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="rounded-lg bg-green-500/15 ring-1 ring-green-500/30 px-2 py-2">
+                <p className="text-[11px] sm:text-xs text-green-300 font-medium">Acertou</p>
+                <p className="text-base sm:text-lg font-extrabold text-green-400 leading-tight">
+                  +{ptsOk}
+                </p>
+              </div>
+              <div className="rounded-lg bg-red-500/15 ring-1 ring-red-500/30 px-2 py-2">
+                <p className="text-[11px] sm:text-xs text-red-300 font-medium">Errou</p>
+                <p className="text-base sm:text-lg font-extrabold text-red-400 leading-tight">
+                  {ptsBad}
+                </p>
+              </div>
+              <div className="rounded-lg bg-slate-700/50 ring-1 ring-white/15 px-2 py-2">
+                <p className="text-[11px] sm:text-xs text-slate-200 font-medium">Em branco</p>
+                <p className="text-base sm:text-lg font-extrabold text-white leading-tight">0</p>
+              </div>
+            </div>
+            <p className="mt-2 text-xs sm:text-sm text-slate-100 leading-snug">
+              <span className="text-green-400 font-semibold">Deixar em branco = 0 pontos, sem risco.</span>
+            </p>
+            <p className="mt-1.5 flex items-start gap-1.5 rounded-lg bg-amber-500/15 ring-1 ring-amber-500/30 px-2.5 py-2 text-xs sm:text-sm text-amber-100 leading-snug">
+              <Zap className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <span>
+                <strong className="text-amber-300">Turbo x2 / x4 / x8</strong> multiplica acerto e
+                erro de <strong className="text-amber-300">UMA</strong> opção. Ex.: x4 acertando ={" "}
+                <strong className="text-green-400">+{ptsOk * 4}</strong>, errando ={" "}
+                <strong className="text-red-400">{ptsBad * 4}</strong>.
+              </span>
+            </p>
+          </div>
         </div>
       </header>
 
@@ -607,7 +637,7 @@ export default function PredictionsScreen({
 
       {/* Confirm button */}
       {!deadlinePassed && (
-        <div className="fixed bottom-0 left-0 right-0 z-20 bg-slate-900/90 backdrop-blur-xl border-t border-white/5 px-4 py-3">
+        <div className="fixed bottom-0 left-0 right-0 z-20 bg-slate-950/30 backdrop-blur-md border-t border-white/10 px-4 py-3">
           <div className="max-w-4xl mx-auto flex items-center gap-3">
             {confirmed && (
               <span className="text-xs text-green-400 flex items-center gap-1 flex-shrink-0">
