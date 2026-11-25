@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Check,
   CheckCircle2,
+  HelpCircle,
+  X,
   Lock,
   Trophy,
   LogOut,
@@ -46,6 +48,21 @@ export default function PredictionsScreen({
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showRules, setShowRules] = useState(() => {
+    try {
+      return sessionStorage.getItem("rules_seen") !== "1";
+    } catch {
+      return true;
+    }
+  });
+  const closeRules = useCallback(() => {
+    setShowRules(false);
+    try {
+      sessionStorage.setItem("rules_seen", "1");
+    } catch {
+      /* sem storage: só não lembra */
+    }
+  }, []);
   const [boosterPicker, setBoosterPicker] = useState<string | null>(null);
   const [moveConfirm, setMoveConfirm] = useState<{
     optionId: string;
@@ -92,6 +109,15 @@ export default function PredictionsScreen({
     if (!settings?.deadline) return false;
     return Date.now() >= new Date(settings.deadline).getTime();
   }, [settings]);
+
+  useEffect(() => {
+    if (!showRules) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeRules();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showRules, closeRules]);
 
   const ptsOk = Number(settings?.points_correct ?? 10);
   const ptsBad = Number(settings?.points_wrong ?? -5);
@@ -294,6 +320,14 @@ export default function PredictionsScreen({
               </p>
             </div>
             <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowRules(true)}
+                className="p-2 rounded-button bg-obsidian text-highlighter hover:bg-white/10 transition-colors"
+                title="Como pontua"
+                aria-label="Como pontua"
+              >
+                <HelpCircle className="w-5 h-5" />
+              </button>
               {player?.is_master && (
                 <button
                   onClick={() => onNavigate("admin")}
@@ -345,38 +379,6 @@ export default function PredictionsScreen({
             </span>
           </div>
 
-          {/* Regras */}
-          <div className="mt-3 rounded-card bg-ink/60 ring-1 ring-hairline/15 p-4">
-            <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em] text-highlighter mb-1">
-              Como pontua
-            </p>
-            <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="rounded-input bg-highlighter text-ink px-2 py-2.5">
-                <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em]">Acertou</p>
-                <p className="text-heading-sm sm:text-heading leading-none">+{ptsOk}</p>
-              </div>
-              <div className="rounded-input bg-paper text-ink px-2 py-2.5">
-                <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em]">Errou</p>
-                <p className="text-heading-sm sm:text-heading leading-none">{ptsBad}</p>
-              </div>
-              <div className="rounded-input bg-obsidian text-paper ring-1 ring-hairline/15 px-2 py-2.5">
-                <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em] text-smoke/70">Em branco</p>
-                <p className="text-heading-sm sm:text-heading leading-none">0</p>
-              </div>
-            </div>
-            <p className="mt-3 text-sm text-smoke">
-              Deixar em branco = 0 pontos, sem risco.
-            </p>
-            <p className="mt-2 flex items-start gap-2 rounded-input bg-obsidian ring-1 ring-highlighter/40 px-3 py-2.5 text-sm text-smoke leading-snug">
-              <Zap className="w-4 h-4 text-highlighter shrink-0 mt-0.5" />
-              <span>
-                <span className="text-highlighter">Turbo x2 / x4 / x8</span> multiplica acerto e
-                erro de <span className="text-highlighter">UMA</span> opção. Ex.: x4 acertando ={" "}
-                <span className="text-highlighter">+{ptsOk * 4}</span>, errando ={" "}
-                <span className="text-paper">{ptsBad * 4}</span>.
-              </span>
-            </p>
-          </div>
         </div>
       </header>
 
@@ -651,6 +653,74 @@ export default function PredictionsScreen({
             >
               Confirmar meus palpites
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Pop-up: Como pontua */}
+      {showRules && !loading && (
+        <div
+          className="fixed inset-0 z-50 bg-ink/70 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={closeRules}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Como pontua"
+        >
+          <div
+            className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-card bg-obsidian ring-1 ring-hairline/15 p-5"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={closeRules}
+              className="absolute top-3 right-3 p-1.5 rounded-button text-smoke/70 hover:text-paper hover:bg-white/10 transition-colors"
+              aria-label="Fechar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em] text-highlighter">
+              Antes de começar
+            </p>
+            <h2 className="text-heading-sm text-paper mb-4">Como pontua</h2>
+
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="rounded-input bg-highlighter text-ink px-2 py-3">
+                <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em]">Acertou</p>
+                <p className="text-heading leading-none">+{ptsOk}</p>
+              </div>
+              <div className="rounded-input bg-paper text-ink px-2 py-3">
+                <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em]">Errou</p>
+                <p className="text-heading leading-none">{ptsBad}</p>
+              </div>
+              <div className="rounded-input bg-ink text-paper ring-1 ring-hairline/15 px-2 py-3">
+                <p className="text-[10px] leading-[2.2] uppercase tracking-[0.018em] text-smoke/70">Em branco</p>
+                <p className="text-heading leading-none">0</p>
+              </div>
+            </div>
+
+            <p className="mt-4 text-sm text-smoke">
+              Deixar em branco = 0 pontos, sem risco.
+            </p>
+
+            <p className="mt-3 flex items-start gap-2 rounded-input bg-ink ring-1 ring-highlighter/40 px-3 py-3 text-sm text-smoke leading-snug">
+              <Zap className="w-4 h-4 text-highlighter shrink-0 mt-0.5" />
+              <span>
+                <span className="text-highlighter">Turbo x2 / x4 / x8</span> multiplica acerto e
+                erro de <span className="text-highlighter">UMA</span> opção. Ex.: x4 acertando ={" "}
+                <span className="text-highlighter">+{ptsOk * 4}</span>, errando ={" "}
+                <span className="text-paper">{ptsBad * 4}</span>.
+              </span>
+            </p>
+
+            <button
+              onClick={closeRules}
+              className="mt-5 w-full bg-highlighter hover:bg-highlighter/90 text-ink py-3.5 rounded-button text-sm uppercase tracking-[0.05em] transition-all active:scale-[0.98]"
+            >
+              Entendi
+            </button>
+            <p className="mt-3 text-center text-xs text-smoke/55">
+              Você pode rever estas regras no botão de ajuda, no topo da tela.
+            </p>
           </div>
         </div>
       )}
