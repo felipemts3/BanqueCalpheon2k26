@@ -31,7 +31,16 @@ export interface Option {
 export interface Prediction {
   option_id: string;
   answer: boolean;
+  multiplier?: number;
   updated_at?: string;
+}
+
+export interface PickRow {
+  player_id: string;
+  family_name: string;
+  option_id: string;
+  answer: boolean;
+  multiplier?: number;
 }
 
 export interface RankingEntry {
@@ -40,6 +49,8 @@ export interface RankingEntry {
   total_points: number;
   correct_count: number;
   confirmed_at: string | null;
+  booster_option_title?: string | null;
+  booster_multiplier?: number | null;
 }
 
 export interface AdminPlayer {
@@ -56,4 +67,5 @@ export interface AppSettings {
   points_correct: string;
   points_wrong: string;
   results_published: string;
+  booster_multipliers?: string;
 }

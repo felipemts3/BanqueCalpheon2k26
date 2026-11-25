@@ -14,6 +14,7 @@ import {
   Plus,
   ChevronDown,
   ChevronUp,
+  Zap,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
@@ -815,13 +816,18 @@ function RankingTab({ token }: { token: string | null }) {
   }, [token]);
 
   const exportCSV = () => {
-    const header = "Posicao,Nome de Familia,Pontos,Acertos,Confirmado em\n";
+    const header = "Posicao,Nome de Familia,Pontos,Acertos,Turbo,Opcao Turbinada,Confirmado em\n";
     const rows = ranking
       .map((r, i) => {
+        const booster =
+          r.booster_multiplier && r.booster_multiplier > 1
+            ? `x${r.booster_multiplier}`
+            : "";
+        const boosterTitle = r.booster_option_title ?? "";
         const confirmed = r.confirmed_at
           ? new Date(r.confirmed_at).toLocaleString("pt-BR")
           : "—";
-        return `${i + 1},${r.family_name},${r.total_points},${r.correct_count},${confirmed}`;
+        return `${i + 1},${r.family_name},${r.total_points},${r.correct_count},${booster},${boosterTitle},${confirmed}`;
       })
       .join("\n");
     const csv = header + rows;
@@ -859,8 +865,16 @@ function RankingTab({ token }: { token: string | null }) {
               <span className="text-slate-500 font-bold text-sm w-6 text-center">
                 {i + 1}
               </span>
-              <span className="text-white font-semibold text-sm flex-1 truncate">
+              <span className="text-white font-semibold text-sm flex-1 truncate flex items-center gap-1.5">
                 {entry.family_name}
+                {entry.booster_multiplier && entry.booster_multiplier > 1 && (
+                  <span
+                    className="flex items-center gap-0.5 bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded ring-1 ring-amber-500/40 flex-shrink-0"
+                    title={entry.booster_option_title ?? ""}
+                  >
+                    <Zap className="w-3 h-3" /> x{entry.booster_multiplier}
+                  </span>
+                )}
               </span>
               <span className="text-slate-500 text-xs">{entry.correct_count} acertos</span>
               <span

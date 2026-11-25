@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Trophy, Medal, Lock } from "lucide-react";
+import { ArrowLeft, Trophy, Medal, Lock, Zap } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import type { RankingEntry } from "@/lib/types";
@@ -161,14 +161,24 @@ export default function RankingScreen({
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-white font-semibold text-sm truncate">
+                    <p className="text-white font-semibold text-sm truncate flex items-center gap-1.5">
                       {entry.family_name}
                       {entry.player_id === player?.id && (
-                        <span className="text-amber-400 text-xs ml-1.5">(você)</span>
+                        <span className="text-amber-400 text-xs">(você)</span>
+                      )}
+                      {entry.booster_multiplier && entry.booster_multiplier > 1 && (
+                        <span
+                          className="flex items-center gap-0.5 bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.5 rounded ring-1 ring-amber-500/40 flex-shrink-0"
+                          title={entry.booster_option_title ?? ""}
+                        >
+                          <Zap className="w-3 h-3" /> x{entry.booster_multiplier}
+                        </span>
                       )}
                     </p>
-                    <p className="text-slate-500 text-xs">
+                    <p className="text-slate-500 text-xs truncate">
                       {entry.correct_count} acertos
+                      {entry.booster_multiplier && entry.booster_multiplier > 1 &&
+                        ` · turbo em ${entry.booster_option_title}`}
                     </p>
                   </div>
                   <div className="text-right flex-shrink-0">

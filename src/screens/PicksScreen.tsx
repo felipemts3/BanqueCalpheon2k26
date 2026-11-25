@@ -1,16 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Lock } from "lucide-react";
+import { ArrowLeft, Lock, Zap } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { fetchOptions } from "@/lib/options";
 import type { Category, Option, AppSettings } from "@/lib/types";
 
-interface PickRow {
-  player_id: string;
-  family_name: string;
-  option_id: string;
-  answer: boolean;
-}
+import type { PickRow } from "@/lib/types";
 
 export default function PicksScreen({ onBack }: { onBack: () => void }) {
   const { token } = useAuth();
@@ -56,8 +51,10 @@ export default function PicksScreen({ onBack }: { onBack: () => void }) {
 
   const current = selected || players[0]?.id || "";
   const answers = useMemo(() => {
-    const m = new Map<string, boolean>();
-    picks.filter((p) => p.player_id === current).forEach((p) => m.set(p.option_id, p.answer));
+    const m = new Map<string, { answer: boolean; multiplier: number }>();
+    picks
+      .filter((p) => p.player_id === current)
+      .forEach((p) => m.set(p.option_id, { answer: p.answer, multiplier: p.multiplier ?? 1 }));
     return m;
   }, [picks, current]);
 
@@ -68,7 +65,7 @@ export default function PicksScreen({ onBack }: { onBack: () => void }) {
   options.forEach((o) => {
     const a = answers.get(o.id);
     if (a === undefined || o.happened === null) return;
-    total += a === o.happened ? ptsOk : ptsBad;
+    total += (a.answer === o.happened ? ptsOk : ptsBad) * a.multiplier;
   });
 
   return (
@@ -140,8 +137,9 @@ export default function PicksScreen({ onBack }: { onBack: () => void }) {
                       {opts.map((o) => {
                         const a = answers.get(o.id);
                         const resolved = o.happened !== null;
-                        const hit = resolved && a !== undefined && a === o.happened;
-                        const miss = resolved && a !== undefined && a !== o.happened;
+                        const hit = resolved && a !== undefined && a.answer === o.happened;
+                        const miss = resolved && a !== undefined && a.answer !== o.happened;
+                        const boosted = (a?.multiplier ?? 1) > 1;
                         return (
                           <div
                             key={o.id}
@@ -150,6 +148,8 @@ export default function PicksScreen({ onBack }: { onBack: () => void }) {
                                 ? "bg-green-500/10 ring-green-500/20"
                                 : miss
                                 ? "bg-red-500/10 ring-red-500/20"
+                                : boosted
+                                ? "bg-slate-800/60 ring-amber-500/40"
                                 : "bg-slate-800/60 ring-white/5"
                             }`}
                           >
@@ -157,15 +157,20 @@ export default function PicksScreen({ onBack }: { onBack: () => void }) {
                               {o.emoji} {o.title}
                             </span>
                             <span
-                              className={`font-bold text-xs whitespace-nowrap ${
+                              className={`font-bold text-xs whitespace-nowrap flex items-center gap-1.5 ${
                                 a === undefined
                                   ? "text-slate-500"
-                                  : a
+                                  : a.answer
                                   ? "text-green-400"
                                   : "text-red-400"
                               }`}
                             >
-                              {a === undefined ? "—" : a ? "VAI VIR" : "NÃO VAI VIR"}
+                              {boosted && (
+                                <span className="flex items-center gap-0.5 bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ring-1 ring-amber-500/40">
+                                  <Zap className="w-3 h-3" /> x{a!.multiplier}
+                                </span>
+                              )}
+                              {a === undefined ? "—" : a.answer ? "VAI VIR" : "NÃO VAI VIR"}
                             </span>
                           </div>
                         );
