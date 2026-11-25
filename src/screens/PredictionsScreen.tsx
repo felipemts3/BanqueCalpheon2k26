@@ -308,7 +308,7 @@ export default function PredictionsScreen({
   return (
     <div className="min-h-screen pb-24">
       {/* Header */}
-      <header className="sticky top-0 z-20 bg-ink/30 backdrop-blur-md border-b border-hairline/15">
+      <header className="relative z-20 bg-ink/30 backdrop-blur-md border-b border-hairline/15">
         <div className="max-w-4xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between mb-3">
             <div>
